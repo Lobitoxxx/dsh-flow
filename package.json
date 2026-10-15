@@ -5,7 +5,15 @@
   "type": "module",
   "license": "MIT",
   "icon": "./icon.svg",
-  "keywords": ["dsh", "deepseek-harness", "plugin", "cordis", "modes", "plan", "workflow"],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "cordis",
+    "modes",
+    "plan",
+    "workflow"
+  ],
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
@@ -34,5 +42,14 @@
         "@deepseek-ai/dsh-client-ui-conversation"
       ]
     }
+  },
+  "author": "Lobitoxxx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lobitoxxx/dsh-flow.git"
+  },
+  "homepage": "https://github.com/Lobitoxxx/dsh-flow#readme",
+  "bugs": {
+    "url": "https://github.com/Lobitoxxx/dsh-flow/issues"
   }
 }

@@ -43,7 +43,7 @@ El modo **planear no está reimplementado**: es el modo plan del propio Harness,
 ## Instalación
 
 ```sh
-dsh plugin --profile desktop add <ruta o github:usuario/repo>
+dsh plugin --profile desktop add github:Lobitoxxx/dsh-flow
 ```
 
 1. **Reinicia la aplicación** una vez: la mitad de host es código de proceso.

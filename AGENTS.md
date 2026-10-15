@@ -11,7 +11,7 @@ Este repositorio es un **bundle de DeepSeek Harness** con dos mitades: host (`in
 ## 1. Instala con el gestor
 
 ```sh
-dsh plugin --profile desktop add <ruta o github:usuario/repo>
+dsh plugin --profile desktop add github:Lobitoxxx/dsh-flow
 ```
 
 No escribas el `package.json` ni el `cordis.patch.yml` del perfil a mano, y no uses pnpm directamente en el perfil.

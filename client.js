@@ -71,6 +71,15 @@ window.__ModuleLoader__.load({
       return null;
     }
 
+    /**
+     * Caché a nivel de módulo: el compositor puede remontar este componente muchas
+     * veces mientras el agente trabaja, y no queremos una consulta por remontaje.
+     * Se refresca como mucho una vez por minuto, salvo cuando el usuario actúa.
+     */
+    const REFRESCO_MINIMO_MS = 60000;
+    let modoCache = null;
+    let ultimaConsulta = 0;
+
     function ModeSelect(props) {
       const { execute } = props;
       const wrapRef = React.useRef(null);
@@ -85,11 +94,20 @@ window.__ModuleLoader__.load({
       const executeRef = React.useRef(execute);
       executeRef.current = execute;
 
-      const refrescar = React.useCallback(async () => {
+      const refrescar = React.useCallback(async (forzar = false) => {
+        const ahora = Date.now();
+        if (!forzar && modoCache && ahora - ultimaConsulta < REFRESCO_MINIMO_MS) {
+          setModo(modoCache);
+          return modoCache;
+        }
+        ultimaConsulta = ahora;
         const resultado = await executeRef.current('/modo estado');
         if (resultado && resultado.ok && resultado.text) {
           const leido = leerModo(resultado.text);
-          if (leido) setModo(leido);
+          if (leido) {
+            modoCache = leido;
+            setModo(leido);
+          }
           return leido;
         }
         if (resultado && resultado.error) setNota(String(resultado.error).slice(0, 120));
@@ -130,7 +148,7 @@ window.__ModuleLoader__.load({
             bottom: Math.max(8, Math.round(window.innerHeight - r.top + 8)),
           });
         }
-        void refrescar();
+        void refrescar(true);
         setAbierto(true);
       };
 
@@ -144,7 +162,7 @@ window.__ModuleLoader__.load({
           } else {
             setNota(String((resultado && resultado.error) || 'no se pudo cambiar el modo').slice(0, 160));
           }
-          await refrescar();
+          await refrescar(true);
         } finally {
           setOcupado(false);
           setAbierto(false);
@@ -219,10 +237,15 @@ window.__ModuleLoader__.load({
     return {
       inject: ['slots', 'remote', 'remote.commands'],
       apply(ctx) {
-        ctx.slots.inject('conversation.input.plan', () =>
+        // El nombre del inject y el del register deben ser EL MISMO asiento; si no,
+        // la inscripción no llega a montarse nunca.
+        ctx.slots.inject('conversation.input.left', () =>
           ctx.slots.register(
             {
               name: 'conversation.input.left',
+              // Los asientos de tipo lista exigen `id`: sin él la inscripción no vale.
+              id: 'flow-mode',
+              order: 50,
               inject: (sessionId) => ({
                 execute: async (line) => {
                   try {
