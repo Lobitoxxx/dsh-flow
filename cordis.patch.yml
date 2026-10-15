@@ -1,0 +1,14 @@
+# Capa de parche del bundle dsh-flow.
+#
+# - La fila de host (index.js) registra el comando /modo, guarda el modo por agente,
+#   manda al modo plan del Harness y bloquea escritura y edición en modo asesorar.
+# - La mitad de navegador (client.js) pone el selector en el asiento que el
+#   compositor renderiza junto al chip de permisos.
+#
+# No desactiva ninguna fila del Harness: el modo plan sigue siendo suyo entero
+# (tarjetas, estado registrado y salida revisada).
+- insert:
+    - id: dsh-flow
+      name: 'dsh-flow'
+      config:
+        logFile: !!js dshHomePath('dsh-flow.log')

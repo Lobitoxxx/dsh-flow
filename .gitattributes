@@ -1,0 +1,4 @@
+# Normaliza los finales de línea para que el paquete se vea igual en cualquier sistema.
+* text=auto eol=lf
+*.png binary
+*.ico binary

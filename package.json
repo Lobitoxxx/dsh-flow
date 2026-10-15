@@ -1,0 +1,38 @@
+{
+  "name": "dsh-flow",
+  "version": "1.0.0",
+  "description": "Selector de modo de trabajo para DeepSeek Harness: planear, construir o asesorar, con la escritura bloqueada de verdad en modo asesorar.",
+  "type": "module",
+  "license": "MIT",
+  "icon": "./icon.svg",
+  "keywords": ["dsh", "deepseek-harness", "plugin", "cordis", "modes", "plan", "workflow"],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon.svg": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "locale/*.json",
+    "README.md",
+    "AGENTS.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}
